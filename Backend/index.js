@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import "./server/db/db.js";
 import router from "./server/router/router.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { limiter } from "./server/utils/rateLimiter.js";
 
 dotenv.config();
@@ -13,7 +14,11 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use(limiter);
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("Welcome");

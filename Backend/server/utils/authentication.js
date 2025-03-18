@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import Auth from "../model/model.js";
 import ErrorHandler from "./errorhandler.js";
 
-// isAUthenticated Controllers
+
 export const isAuthenticate = async (req, res, next) => {
   const { token } = req.cookies;
 
