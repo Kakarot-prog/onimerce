@@ -33,7 +33,7 @@ router.put("/resetPass", isAuthenticate, resetPass);
 
 router.post("/forgot/password", forgotPass);
 
-router.post("/auth/forgot/:token", isAuthenticate, resetForgotPass);
+router.post("/auth/forgot/:token", resetForgotPass);
 
 router.get("/get/profile", isAuthenticate, myProfile);
 

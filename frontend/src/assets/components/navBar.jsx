@@ -39,13 +39,13 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              to="/products"
+              to="/product"
               className="text-gray-300 hover:text-purple-400 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:bg-gray-800"
             >
               Products
             </Link>
             <Link
-              to="/categories"
+              to="/newPass"
               className="text-gray-300 hover:text-purple-400 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:bg-gray-800"
             >
               Categories

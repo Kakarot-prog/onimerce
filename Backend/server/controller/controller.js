@@ -8,7 +8,8 @@ import cloudinarySetup from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../utils/sendEmail.js";
 import { resetPassToken } from "../utils/crypto.js";
-
+import crypto from "crypto";
+import sendToken from "../utils/sendToken.js";
 //  create user
 export const userRegister = async (req, res, next) => {
   const { name, email, password, role, avatar } = req.body;
@@ -251,11 +252,9 @@ export const forgotPass = async (req, res, next) => {
 
   await user.save();
 
-  const reset_url = `${req.protocol}://${req.get(
-    "host"
-  )}/api/v1/forgot/password/${resetToken}`;
+  const reset_url = `http://localhost:5173/api/v1/auth/forgot/${resetToken}`;
 
-  const html = `<!DOCTYPE html>
+  const text = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -379,8 +378,8 @@ export const forgotPass = async (req, res, next) => {
   try {
     await sendEmail({
       email,
-      subject: "Gravito Password Reset ",
-      html,
+      subject: "onichan Password Reset ",
+      text,
     });
     res
       .status(200)
@@ -402,7 +401,7 @@ export const resetForgotPass = async (req, res, next) => {
 
   const user = await Auth.findOne({
     resetPassToken,
-    resetPassExpires: { $gt: Date.now() },
+    resetPassExpire: { $gt: Date.now() },
   });
 
   if (!user) {
@@ -411,17 +410,17 @@ export const resetForgotPass = async (req, res, next) => {
     );
   }
 
-  const { password } = req.body;
+  const { newPassword } = req.body;
 
-  if (!password) {
+  if (!newPassword) {
     return next(new ErrorHandler("Please provide new password", 400));
   }
 
-  const encryptedPass = await encryptPass(password);
+  const encryptedPass = hashedPassword(newPassword);
 
   user.password = encryptedPass;
   user.resetPassToken = undefined;
-  user.resetPassExpires = undefined;
+  user.resetPassExpire = undefined;
   await user.save();
   res.json({ success: true, message: "Password reset successfully" });
 };
@@ -446,7 +445,7 @@ export const resetPass = async (req, res, next) => {
   user.password = encryptedPass;
   await user.save();
 
-  res.json({ success: true, message: "Password reset successfully" });
+  res.json({ success: true, message: "Password reset  successfully" });
 };
 
 // LoggedIn User Details

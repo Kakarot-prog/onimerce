@@ -4,7 +4,6 @@ import "./server/db/db.js";
 import router from "./server/router/router.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { limiter } from "./server/utils/rateLimiter.js";
 
 dotenv.config();
 
@@ -17,6 +16,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: "*",
+    credentials: "true",
   })
 );
 
